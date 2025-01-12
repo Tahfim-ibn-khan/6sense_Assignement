@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 
-let idCounter = 1; 
-
+let idCounter = 1;
 
 export default function Home() {
-  const [fields, setFields] = useState([{ id: idCounter, input: "", select: "" }]);
-  const [errors, setErrors] = useState({});
+  const [fields, setFields] = useState<{ id: number; input: string; select: string }[]>([
+    { id: idCounter, input: "", select: "" },
+  ]);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-
-  const handleInputChange = (id, field, value) => {
+  const handleInputChange = (id: number, field: string, value: string) => {
     setFields((prevFields) =>
       prevFields.map((f) => (f.id === id ? { ...f, [field]: value } : f))
     );
@@ -21,14 +21,14 @@ export default function Home() {
     setFields([...fields, { id: idCounter, input: "", select: "" }]);
   };
 
-  const deleteField = (id) => {
+  const deleteField = (id: number) => {
     setFields(fields.filter((field) => field.id !== id));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newErrors = {};
+    const newErrors: { [key: string]: string } = {};
     fields.forEach((field) => {
       if (!field.input) newErrors[`input-${field.id}`] = "Input is required";
       if (!field.select) newErrors[`select-${field.id}`] = "Select is required";
